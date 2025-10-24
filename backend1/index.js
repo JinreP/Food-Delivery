@@ -11,7 +11,7 @@ const port = process.env.PORT;
 app.use(bodyParser.json());
 
 console.log(
-  figlet.textSync("UURIGOO HICHE PISDA MIN!", {
+  figlet.textSync(" AAAAA!", {
     font: "",
     horizontalLayout: "default",
     verticalLayout: "default",
@@ -20,6 +20,15 @@ console.log(
   })
 );
 
+console.log(
+  figlet.textSync("DDDD!", {
+    font: "",
+    horizontalLayout: "default",
+    verticalLayout: "default",
+    width: 80,
+    whitespaceBreak: true,
+  })
+);
 app.listen(port, () => {
   console.log("server is connected");
 });
