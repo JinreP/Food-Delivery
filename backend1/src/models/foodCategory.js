@@ -10,3 +10,4 @@ const categorySchema = new Schema(
 );
 
 export const foodCategory = model("food category", categorySchema);
+
