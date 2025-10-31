@@ -9,7 +9,13 @@ import { userRoute } from "./routes/usersRoute.js";
 configDotenv();
 
 const app = express();
+const cors = require("cors");
 
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 const port = process.env.PORT;
 app.use(bodyParser.json());
 
