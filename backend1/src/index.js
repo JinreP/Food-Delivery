@@ -1,21 +1,18 @@
 import { configDotenv } from "dotenv";
 import express from "express";
+import cors from "cors";
+
 import bodyParser from "body-parser";
 import { connectDB } from "./database/db.js";
 import { categoryRoute } from "./routes/foodCategory.js";
 import { foodRoute } from "./routes/foodRoute.js";
 import { userRoute } from "./routes/usersRoute.js";
-import cors from "cors";
 configDotenv();
 
 const app = express();
-const cors = require("cors");
 
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-  })
-);
+app.use(cors({ origin: "http://localhost:3000" }));
+
 const port = process.env.PORT;
 app.use(bodyParser.json());
 

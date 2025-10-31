@@ -4,10 +4,13 @@ export const createFood = async (req, res) => {
   try {
     await food.create({
       food: req.body.food,
+      price: req.body.price,
+      image: req.body.image,
+      ingredients: req.body.ingredients,
     });
     res.status(200).send({ message: "successful", data: req.body });
   } catch (error) {
-    res.status(500).send({ message: "Error", data: null });
+    res.status(500).send({ message: "hool hiihed aldaa garla", data: null });
   }
 };
 
