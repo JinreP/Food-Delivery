@@ -1,15 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { ArrayPropsTypes } from "@/lib/types";
 import Image from "next/image";
-import { Add } from "./Add";
+import { AddDishes } from "./AddDishes";
 
 export function ArrayMap(ArrayProps: ArrayPropsTypes) {
   const { length, title, price } = ArrayProps;
   return (
     <div>
       <div className="flex flex-wrap w-[1171px]py-5 px-5  h-fit gap-4 bg-white rounded-2xl items-center pl-5.5  ">
-        <Add text={title} />
-
+        <AddDishes text={title} />
         {Array.from({ length }).map((_, i) => (
           <div
             key={i}

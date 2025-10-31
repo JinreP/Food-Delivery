@@ -3,7 +3,6 @@ import { Dishes } from "./_components/Dishes.Left.side";
 import { Category } from "./_components/Category";
 import { Appetizers } from "./_components/Appetizers";
 import { Salads } from "./_components/Salads";
-import { Pizza } from "lucide-react";
 import { Pizzas } from "./_components/Pizza";
 
 export default function DishesHome() {

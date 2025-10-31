@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Add } from "./Add";
+import { AddDishes } from "./AddDishes";
 import { ArrayMap } from "./Map";
 
 export function Appetizers() {
@@ -8,7 +8,7 @@ export function Appetizers() {
     <div>
       <h1 className="font-bold text-3xl mt-10 mb-10">Appetizers (5)</h1>
 
-      <ArrayMap length={10} title="Appetizers" price={150} />
+      <ArrayMap length={5} title="Appetizers" price={150} />
     </div>
   );
 }

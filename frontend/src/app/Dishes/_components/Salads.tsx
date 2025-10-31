@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Add } from "./Add";
+import { AddDishes } from "./AddDishes";
 import { ArrayMap } from "./Map";
 
 export function Salads() {
