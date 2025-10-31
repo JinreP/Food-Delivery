@@ -5,7 +5,7 @@ import { connectDB } from "./database/db.js";
 import { categoryRoute } from "./routes/foodCategory.js";
 import { foodRoute } from "./routes/foodRoute.js";
 import { userRoute } from "./routes/usersRoute.js";
-
+import cors from "cors";
 configDotenv();
 
 const app = express();
