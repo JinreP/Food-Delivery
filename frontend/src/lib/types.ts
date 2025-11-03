@@ -8,7 +8,13 @@ export type ArrayPropsTypes = {
   length: number;
 };
 
-
 export type CategoryTypes = {
-    category: string
-}
+  category: string;
+};
+
+export type FoodsTypes = {
+  food: string;
+  price: number;
+  image: string;
+  ingredients: string;
+};

@@ -8,7 +8,7 @@ export function Salads() {
     <div>
       <h1 className="font-bold text-3xl mt-10 mb-10">Salads (3)</h1>
 
-      <ArrayMap length={3} title="salads" price={99} />
+      <ArrayMap text={"Salads"} />
     </div>
   );
 }
