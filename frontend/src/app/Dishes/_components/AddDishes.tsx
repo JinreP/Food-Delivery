@@ -11,20 +11,20 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { AddProps, CategoryTypes } from "@/lib/types";
+import { AddProps, FoodsTypes } from "@/lib/types";
 import { Label } from "@radix-ui/react-label";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 export function AddDishes(Props: AddProps) {
   const { text } = Props;
-  const [dishes, setDishes] = useState<CategoryTypes[]>([]);
+  const [dishes, setDishes] = useState<FoodsTypes[]>([]);
   const [newDishes, setNewDishes] = useState("");
 
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get("http://localhost:4000/Foods");
+        const res = await axios.get("http://localhost:4000/foods");
         setDishes(res.data);
       } catch (error) {
         console.error(error);
@@ -35,7 +35,7 @@ export function AddDishes(Props: AddProps) {
     if (!newDishes.trim()) return null;
 
     try {
-      const res = await axios.post("http://localhost:4000/Foods", {
+      const res = await axios.post("http://localhost:4000/foods", {
         food: newDishes.trim(),
       });
       setDishes((prev) => [...prev, res.data]);
@@ -84,7 +84,10 @@ export function AddDishes(Props: AddProps) {
           </div>
           <div className="grid gap-1">
             <Label htmlFor="username-1">Food price</Label>
-            <Input placeholder="Enter price..." />
+            <Input
+              placeholder="Enter price..."
+              onChange={(e) => setNewDishes(e.target.value)}
+            />
           </div>
         </div>
         <Label>Ingredients</Label>
