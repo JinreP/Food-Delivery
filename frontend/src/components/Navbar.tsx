@@ -71,7 +71,7 @@ export function Navbar() {
           />
         </svg>
         <svg
-         className="absolute top-2 right-2.5"
+          className="absolute top-2 right-2.5"
           xmlns="http://www.w3.org/2000/svg"
           width="20"
           height="20"
