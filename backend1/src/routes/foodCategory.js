@@ -4,7 +4,7 @@ import {
   deleteFoodcategoryById,
   getFoodCategory,
   updateFoodCategory,
-} from "../controller/foodCategory.js";
+} from "../controller/foodCategory.controller.js";
 export const categoryRoute = Router();
 
 categoryRoute

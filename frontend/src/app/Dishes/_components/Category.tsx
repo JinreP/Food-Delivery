@@ -2,7 +2,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CategoryTypes } from "@/lib/types";
+import { CategoryTypes, FoodsTypes } from "@/lib/types";
 import axios from "axios";
 import {
   Dialog,
@@ -16,7 +16,10 @@ import {
 import { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { User } from "@/components/user";
+import Image from "next/image";
 export function Category() {
+  const [dishes, setDishes] = useState<FoodsTypes[]>([]);
   const [categories, setCategories] = useState<CategoryTypes[]>([]);
   const [newCategory, setNewCategory] = useState("");
 
@@ -25,6 +28,15 @@ export function Category() {
       try {
         const res = await axios.get("http://localhost:4000/category");
         setCategories(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+
+    (async () => {
+      try {
+        const res = await axios.get("http://localhost:4000/foods");
+        setDishes(res.data);
       } catch (error) {
         console.error(error);
       }
@@ -43,20 +55,26 @@ export function Category() {
       console.error(error, "rrrrr");
     }
   }
-
   return (
-    <div className=" flex flex-col  w-[1171px] h-fit border-4 bg-white border-white rounded-2xl">
-      <h1 className="font-bold mb-6 text-2xl pl-13">Dishes category</h1>
+    <div className=" flex flex-col  w-[1171px] h-fit border-4 bg-white border-white rounded-2xl ">
+      <div className="flex justify-between">
+        <h1 className="font-bold mb-6 text-2xl pl-13 ">Dishes category</h1>
+        <User />
+      </div>
 
       <div>
         <div className="flex flex-wrap max-w-[1171px] max-h-44 gap-8 pl-13 ">
           {categories.map((c, i) => {
+            const dishForCat = dishes.filter(
+              (d: any) => d.category?._id === c._id
+            );
+
             return (
               <div key={i}>
                 <Button variant={"secondary"}>
                   {c.category}
                   <Badge variant="outline" className="bg-black text-white">
-                    20
+                    {dishForCat.length}
                   </Badge>
                 </Button>
               </div>

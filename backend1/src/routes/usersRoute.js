@@ -5,7 +5,8 @@ import {
   login,
   signUp,
   updateUsers,
-} from "../controller/users.js";
+} from "../controller/users.controller.js";
+import { verifyToken } from "../middleware/auth.js";
 
 export const userRoute = Router();
 
