@@ -7,6 +7,7 @@ export const createFood = async (req, res) => {
       price: req.body.price,
       image: req.body.image,
       ingredients: req.body.ingredients,
+      category: req.body.category,
     });
     res.status(200).send({ message: "successful", data: req.body });
   } catch (error) {
@@ -16,10 +17,10 @@ export const createFood = async (req, res) => {
 
 export const getFood = async (req, res) => {
   try {
-    const result = await food.find();
+    const result = await food.find().populate("category");
     res.status(200).send(result);
   } catch (error) {
-    res.send(500).send(error, "errr");
+    res.status(500).send(error, "errr");
   }
 };
 
