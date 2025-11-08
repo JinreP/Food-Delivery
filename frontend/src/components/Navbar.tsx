@@ -2,13 +2,23 @@
 
 import { useState } from "react";
 import { Input } from "./ui/input";
-
+import { User } from "./user";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "./ui/button";
 export function Navbar() {
   const [value, setValue] = useState("");
 
   return (
-    <div className="w-full h-[172px] bg-black">
-      <div className="flex gap-5">
+    <div className="w-full h-[172px] bg-black flex justify-between  px-30 items-center">
+      <div className="flex gap-5 ">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="46"
@@ -24,29 +34,55 @@ export function Navbar() {
           />
         </svg>
         <div className="flex flex-col ">
-          <div className="flex items-center">
+          <div className="flex items-center text-2xl">
             <h1 className="font-bold text-white">Nom</h1>
             <h1 className="font-bold text-red-500">Nom</h1>
           </div>
-          <p>Swift delivery</p>
+          <p className="text-white">Swift delivery</p>
         </div>
       </div>
-      <div className="relative">
+      <div className="relative flex  gap-3 ">
         <Input
           type="search"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className="pl-10 w-[400px]"
+          className="pl-10 w-[400px] bg-white"
           placeholder=""
         />
-        {value === "" && (
-          <div className="absolute top-1.5 left-10">
-            <span className="text-orange-600 font-medium">
-              Delivery address:
-            </span>{" "}
-            <span className="text-gray-500">Add location</span>
-          </div>
-        )}
+        <Dialog>
+          <DialogTrigger asChild>
+            {value === "" && (
+              <div className="absolute top-1.5 left-10">
+                <span className="text-orange-600 font-medium">
+                  Delivery address:
+                </span>{" "}
+                <span className="text-gray-500">Add location</span>
+              </div>
+            )}
+          </DialogTrigger>
+          <DialogContent className="w-[502px] h-72 border-2 rounded-2xl ">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold">
+                Please write your delivery address!
+              </DialogTitle>
+            </DialogHeader>
+
+            <div className="grid gap-1">
+              <Input
+                placeholder="Please share your complete address"
+                className="w-[454] h-20 pb-13"
+              />
+            </div>
+
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DialogClose>
+              <Button>Deliver Here</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
         <svg
           className="absolute left-3 top-2"
           xmlns="http://www.w3.org/2000/svg"
@@ -71,7 +107,7 @@ export function Navbar() {
           />
         </svg>
         <svg
-          className="absolute top-2 right-2.5"
+          className="absolute top-2 left-90 bg-white "
           xmlns="http://www.w3.org/2000/svg"
           width="20"
           height="20"
@@ -87,6 +123,7 @@ export function Navbar() {
             strokeLinejoin="round"
           />
         </svg>
+        <User />
       </div>
     </div>
   );

@@ -29,9 +29,8 @@ export function ArrayMap() {
   const [dishes, setDishes] = useState<FoodsTypes[]>([]);
   const [food, setFood] = useState("");
   const [price, setPrice] = useState(0);
-  const [image, setImage] = useState("login.jpg");
+  const [image, setImage] = useState("");
   const [categories, setCategories] = useState<CategoryTypes[]>([]);
-
   const [ingredients, setIngredients] = useState("");
   useEffect(() => {
     (async () => {
@@ -51,7 +50,7 @@ export function ArrayMap() {
       }
     })();
   }, []);
-  async function add() {
+  async function add(categoryId: string) {
     if (!food.trim() || !price || !image || !ingredients) return null;
     console.log("hool nemdeg ajillaa", food, price, ingredients);
     try {
@@ -60,6 +59,7 @@ export function ArrayMap() {
         price: price,
         image: image,
         ingredients: ingredients,
+        category: categoryId,
       });
       setDishes((prev) => [...prev, res.data]);
     } catch (error) {
@@ -140,7 +140,7 @@ export function ArrayMap() {
                       <Input
                         className="h-[150px]"
                         type="file"
-                        onChange={(e) => setImage("login.jpg")}
+                        onChange={(e) => setImage(e.target.value)}
                         placeholder="choose a file or drag & drop it here"
                       ></Input>
                       <div className="bg-white w-[50px] h-[50px] rounded-[50%] absolute left-50 right-50 top-15 flex items-center justify-center">
@@ -162,7 +162,7 @@ export function ArrayMap() {
                       </div>
                     </div>
                     <DialogFooter>
-                      <Button onClick={() => add()}>Add Dish</Button>
+                      <Button onClick={() => add(cat._id)}>Add Dish</Button>
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>

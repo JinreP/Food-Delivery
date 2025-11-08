@@ -19,8 +19,12 @@ import { useRouter } from "next/navigation";
 export const Login = () => {
   const router = useRouter();
   const formSchema = z.object({
-    email: z.string().email("Zuv email bichne uu"),
-    password: z.string().min(6),
+    email: z
+      .string()
+      .email("Invalid email. Use a format like example@email.com."),
+    password: z
+      .string()
+      .min(6, { message: "Incorrect password. Please try again." }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
