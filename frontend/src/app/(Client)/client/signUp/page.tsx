@@ -5,7 +5,7 @@ import { PasswordLogin } from "./_components/Password";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import LoginHome from "../Login/page";
+import LoginHome from "../(client)/client/login/page";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { UserTypes } from "@/lib/types";

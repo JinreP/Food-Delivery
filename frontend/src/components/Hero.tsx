@@ -1,16 +1,17 @@
+import { Fullscreen } from "lucide-react";
 import Image from "next/image";
 
 export function Hero() {
   return (
-    <div className=" ">
+    <section className="relative w-full h-[668px]">
       <Image
-        src={"/hero.png"}
-        alt={"hero"}
-        width={1440}
-        objectFit="cover"
-        height={668}
-        className=""
+        src="/hero.png"
+        alt="Hero"
+        fill
+        sizes="100vw"
+        priority
+        className="object-cover"
       />
-    </div>
+    </section>
   );
 }
