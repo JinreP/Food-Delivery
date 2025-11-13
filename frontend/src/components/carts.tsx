@@ -15,7 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { Label } from "@/components/ui/label";
 
-import { use, useState } from "react";
+import { useState } from "react";
 import { CartList } from "./cartList";
 import { CartPrice } from "./cartPrice";
 import { OrderList } from "./orderList";
@@ -30,8 +30,6 @@ export function OrderDetail({ location }: any) {
   const { user } = useAuth();
   const [ordered, setOrdered] = useState(false);
   const [empty, setEmpty] = useState(false);
-  const [history, setHistory] = useState<any[]>([]);
-  const [activeOrder, setActiveOrder] = useState();
   const [showOrderAlert, setShowOrderAlert] = useState(false);
   const foodAlert = () => {
     if (!user) return;
