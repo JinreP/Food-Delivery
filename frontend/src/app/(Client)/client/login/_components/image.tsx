@@ -4,7 +4,7 @@ export function Img() {
   return (
     <div>
       <Image
-        src={"login.jpg"}
+        src={"/login.jpg"}
         className="rounded-2xl"
         alt={"aaa"}
         width={856}

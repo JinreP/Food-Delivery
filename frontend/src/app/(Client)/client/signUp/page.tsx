@@ -5,7 +5,7 @@ import { PasswordLogin } from "./_components/Password";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import LoginHome from "../(client)/client/login/page";
+
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { UserTypes } from "@/lib/types";
@@ -102,7 +102,7 @@ export default function SignUpHome() {
               <div className="flex flex-col mt-4">
                 <div className="flex gap-2 pl-23">
                   <p className="text-gray-500">Already have an account?</p>
-                  <Link href={"http://localhost:3000/Login"}>
+                  <Link href={"http://localhost:3000/client/login"}>
                     <span className="text-blue-500">Log in</span>
                   </Link>
                 </div>
@@ -110,7 +110,7 @@ export default function SignUpHome() {
             )}
           </div>
           <Image
-            src={"login.jpg"}
+            src={"/login.jpg"}
             className="rounded-2xl"
             alt={"aaa"}
             width={856}

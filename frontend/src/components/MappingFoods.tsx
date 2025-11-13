@@ -1,6 +1,11 @@
 "use client";
 
-import { ArrayPropsTypes, CategoryTypes } from "@/lib/types";
+import {
+  ArrayPropsTypes,
+  CategoryTypes,
+  OrderedFood,
+  OrderItem,
+} from "@/lib/types";
 
 import Image from "next/image";
 
@@ -22,18 +27,16 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 import { CheckCircle2Icon } from "lucide-react";
+import { useOrder } from "@/context/food.provider";
 
 export function MappingFoods() {
+  const { addToCart } = useOrder();
+
   const [dishes, setDishes] = useState<FoodsTypes[]>([]);
   const [showAlert, setShowAlert] = useState(false);
-
   const [categories, setCategories] = useState<CategoryTypes[]>([]);
   const [orderCount, setOrderCount] = useState(1);
 
-  const added = () => {
-    setShowAlert(true);
-    setTimeout(() => setShowAlert(false), 2000);
-  };
 
   useEffect(() => {
     (async () => {
@@ -68,6 +71,12 @@ export function MappingFoods() {
               key={i}
               className="flex items-center justify-center flex-col"
             >
+              {showAlert && (
+                <Alert className="absolute top-10 w-[300px] bg-black text-white">
+                  <CheckCircle2Icon />
+                  <AlertTitle>Food is being added to the cart!</AlertTitle>
+                </Alert>
+              )}
               <h1 className="text-3xl font-bold pr-295 mb-5 text-white">
                 {cat.category}
               </h1>
@@ -87,28 +96,28 @@ export function MappingFoods() {
                           unoptimized
                         />
                       </DialogTrigger>
-                      <DialogContent className="h-[412px] w-[826px] border-2 rounded-2xl">
-                        <div className="flex">
+                      <DialogContent className="h-[412px] w-[826px]  sm:max-w-[826px]  border-2 rounded-2xl">
+                        <div className="flex gap-7">
                           <Image
                             src={dish.image}
                             alt={dish.food}
-                            width={250}
-                            height={210}
+                            width={377}
+                            height={364}
                             unoptimized
                           />
 
                           <div className="">
                             <div className="flex flex-col">
-                              <DialogTitle className="text-2xl font-bold text-orange-500 pb-3">
+                              <DialogTitle className="text-3xl font-bold text-orange-500 pb-3">
                                 {dish.food}
                               </DialogTitle>
-                              <p className="text-gray-500">
+                              <p className="text-gray-500 ">
                                 {dish.ingredients}
                               </p>
                             </div>
 
-                            <div className="flex flex-col pt-5">
-                              <div className="flex gap-4">
+                            <div className="flex flex-col pt-10">
+                              <div className="flex gap-40 ">
                                 <div className="flex flex-col">
                                   <p className="text-gray-500">Total price</p>
                                   <h1 className="font-bold">${dish.price}</h1>
@@ -165,21 +174,21 @@ export function MappingFoods() {
                             </div>
                           </div>
                         </div>
-                        <DialogFooter>
-                          <Button className="w-[210px]" onClick={() => added()}>
+                        <DialogFooter className="">
+                          <Button
+                            className="w-[370px]"
+                            onClick={() => {
+                              addToCart(dish, orderCount);
+                              setShowAlert(true);
+                              setTimeout(() => setShowAlert(false), 2000);
+                            }}
+                          >
                             Add to cart
                           </Button>
                         </DialogFooter>
                       </DialogContent>
                     </Dialog>
-                    {showAlert && (
-                      <Alert className="absolute top-0 bg-black text-white">
-                        <CheckCircle2Icon />
-                        <AlertTitle>
-                          Food is being added to the cart!
-                        </AlertTitle>
-                      </Alert>
-                    )}
+
                     <Button
                       variant={"secondary"}
                       className="rounded-[50%] w-11 h-11 absolute  right-6 top-25"

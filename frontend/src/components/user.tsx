@@ -1,21 +1,19 @@
-import Image from "next/image";
+"use client";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "./ui/button";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { UserTypes } from "@/lib/types";
+import { useAuth } from "@/context/user.provider";
 export function User() {
+  const { user, logout } = useAuth();
+
   return (
     <div className="">
       <DropdownMenu>
@@ -29,9 +27,9 @@ export function User() {
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-[200px] rounded-2xl flex flex-col items-center justify-center">
-          <DropdownMenuItem>Test@gmail.com</DropdownMenuItem>
+          <DropdownMenuItem>{user?.email}</DropdownMenuItem>
           <DropdownMenuItem>
-            <Button>Sign out</Button>
+            <Button onClick={logout}>Sign out</Button>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
