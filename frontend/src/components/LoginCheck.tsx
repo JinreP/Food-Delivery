@@ -17,19 +17,28 @@ export function CheckingUser() {
       <Dialog>
         <form>
           <DialogTrigger asChild>
-            <Button variant="outline">Open Dialog</Button>
+            <Button
+              variant="outline"
+              className="bg-orange-500 text-white w-[439px]"
+            >
+              Checkout
+            </Button>
           </DialogTrigger>
-          <DialogContent className="w-[429px] h-[184px] flex flex-col justify-center items-center">
+          <DialogContent className="w-[429px] h-[184px] flex flex-col justify-center gap-10 items-center">
             <DialogHeader>
-              <DialogTitle>You need to log in first </DialogTitle>
+              <DialogTitle className=" text-2xl">
+                You need to log in first{" "}
+              </DialogTitle>
             </DialogHeader>
 
             <DialogFooter className="flex gap-5">
               <Link href={"http://localhost:3000/client/login"}>
-                <Button variant="outline">Log in</Button>
+                <Button className="w-[182px]">Log in</Button>
               </Link>
               <Link href={"http://localhost:3000/client/signUp"}>
-                <Button type="submit">Sign up</Button>
+                <Button variant="outline" className="w-[182px]" type="submit">
+                  Sign up
+                </Button>
               </Link>
             </DialogFooter>
           </DialogContent>

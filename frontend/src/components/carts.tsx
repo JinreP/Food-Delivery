@@ -19,10 +19,10 @@ import { use, useState } from "react";
 import { CartList } from "./cartList";
 import { CartPrice } from "./cartPrice";
 import { OrderList } from "./orderList";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 
 import { OrderedAlert } from "./orderedAlert";
-import { useOrder } from "@/context/food.provider";
+
 import { useAuth } from "@/context/user.provider";
 import { CheckingUser } from "./LoginCheck";
 
@@ -32,11 +32,15 @@ export function OrderDetail({ location }: any) {
   const [empty, setEmpty] = useState(false);
   const [history, setHistory] = useState<any[]>([]);
   const [activeOrder, setActiveOrder] = useState();
-
+  const [showOrderAlert, setShowOrderAlert] = useState(false);
   const foodAlert = () => {
-    if (!user) return <CheckingUser />;
+    if (!user) return;
     setOrdered(true);
     setEmpty(true);
+    setShowOrderAlert(true);
+    setTimeout(() => {
+      setOrdered(false);
+    }, 3000);
   };
 
   return (
@@ -61,7 +65,7 @@ export function OrderDetail({ location }: any) {
               </svg>
             </Button>
           </DialogTrigger>
-          <DialogContent className="w-[535px] h-full bg-gray-500 border-0 flex flex-col items-center right-0 left-496  ">
+          <DialogContent className="w-[535px] h-full bg-gray-500 border-0 flex flex-col items-center right-0 left-300  ">
             {ordered && (
               <Alert className="absolute top-10 right-220 w-[700px] h-[450px] flex  justify-center bg-black text-white">
                 <AlertTitle className="font-bold text-3xl">
@@ -146,7 +150,7 @@ export function OrderDetail({ location }: any) {
                       </CardTitle>
                     </CardHeader>
 
-                    <CardContent className="grid gap-6 h-[500px]">
+                    <CardContent className="grid gap-6 h-[200px]">
                       {empty === false && (
                         <div>
                           <div className="flex flex-col">
@@ -195,15 +199,19 @@ export function OrderDetail({ location }: any) {
                   className="bg-white rounded-2xl mt-10 flex flex-col pb-10"
                 >
                   <CartPrice empty={empty} />
-                  <div className="flex items-center justify-center">
-                    <Button
-                      type="submit"
-                      onClick={foodAlert}
-                      className="bg-orange-500 text-white w-[439px] mt-6"
-                    >
-                      Checkout
-                    </Button>
-                  </div>
+                  {user ? (
+                    <div className="flex items-center justify-center">
+                      <Button
+                        type="submit"
+                        onClick={foodAlert}
+                        className="bg-orange-500 text-white w-[439px] "
+                      >
+                        Checkout
+                      </Button>
+                    </div>
+                  ) : (
+                    <CheckingUser />
+                  )}
                 </TabsContent>
                 <TabsContent value="order" className="">
                   <Card className="h-[900px]">
@@ -215,7 +223,10 @@ export function OrderDetail({ location }: any) {
                     <CardContent className="grid gap-6">
                       <div className="grid gap-3">
                         <div className="flex ">
-                          <OrderList ordered={ordered} location={location} />
+                          <OrderList
+                            ordered={setShowOrderAlert}
+                            location={location}
+                          />
                         </div>
                       </div>
                     </CardContent>
