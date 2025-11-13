@@ -15,7 +15,7 @@ export type CategoryTypes = {
 
 export type FoodsTypes = {
   _id: string;
-  category: string | CategoryTypes;
+  category: CategoryTypes;
   food: string;
   price: number;
   image: string;
@@ -47,4 +47,9 @@ export type OrderedFood = {
   items: OrderItem[];
   totalPrice: number;
   status: "PENDING" | "CANCELED" | "DELIVERED";
+};
+
+export type EditFoodTypes = {
+  dish: FoodsTypes;
+  categories: CategoryTypes[];
 };
