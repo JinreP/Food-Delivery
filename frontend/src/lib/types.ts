@@ -14,7 +14,7 @@ export type CategoryTypes = {
 };
 
 export type FoodsTypes = {
-  _id?: string;
+  _id: string;
   category: string | CategoryTypes;
   food: string;
   price: number;
@@ -32,4 +32,19 @@ export type AccountLoginTypes = {
 export type UserTypes = {
   email: string;
   password: string;
+  id: string;
+};
+
+export type OrderItem = {
+  foodId: string;
+  name: string;
+  price: number;
+  howMuch: number;
+  ingredients: string;
+};
+
+export type OrderedFood = {
+  items: OrderItem[];
+  totalPrice: number;
+  status: "PENDING" | "CANCELED" | "DELIVERED";
 };

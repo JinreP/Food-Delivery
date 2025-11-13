@@ -68,7 +68,22 @@ export const login = async (req, res) => {
     // if (!user.length) {
     //   res.status(500).send("User already exist");
     // }
-    const isPasswordCorrect = bcrypt.compareSync(password, user.password);
+
+    if (!email || !password) {
+      return res.status(403).send({ message: "pass and email is required" });
+    }
+
+    // if (typeof user.password !== "string") {
+    //   console.log("Invalid password type:", user.password);
+    //   return res.status(500).send({ message: "Invalid password format" });
+    // }
+
+    const isPasswordCorrect = bcrypt.compareSync(
+      String(password),
+      String(user.password)
+    );
+    console.log("working");
+
     console.log(isPasswordCorrect);
 
     if (!isPasswordCorrect) {
@@ -78,9 +93,13 @@ export const login = async (req, res) => {
     const token = jwt.sign({ ...user }, "secret-key", {
       expiresIn: "1h",
     });
-    res.status(200).send({ message: "success", token: token });
+    res.status(200).send({
+      message: "success",
+      token: token,
+      user: { email: user.email, _id: user._id },
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).send({ message: "Error", data: error });
+    res.status(500).send({ message: "Error", data: error.message });
   }
 };

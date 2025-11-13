@@ -15,8 +15,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/user.provider";
 
 export const Login = () => {
+  const { login } = useAuth();
   const router = useRouter();
   const formSchema = z.object({
     email: z
@@ -37,12 +39,7 @@ export const Login = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-
-    const res = await axios.post("http://localhost:4000/user/login", {
-      email: values.email,
-      password: values.password,
-    });
-    router.push("/");
+    login(values.email, values.password);
   }
 
   return (
@@ -106,7 +103,7 @@ export const Login = () => {
                     </FormItem>
                   )}
                 />
-                <Link href={"http://localhost:3000/Login/forgotPass"}>
+                <Link href={"http://localhost:3000/client/forgotPass"}>
                   <p className="underline">Forgot password</p>
                 </Link>
                 <div className="flex flex-col">
@@ -118,7 +115,7 @@ export const Login = () => {
                   </Button>
                   <div className="flex gap-2 pl-23">
                     <p className="text-gray-500">Don’t have an account?</p>
-                    <Link href={"http://localhost:3000/SignUp"}>
+                    <Link href={"http://localhost:3000/client/signUp"}>
                       <span className="text-blue-500">Sign up</span>
                     </Link>
                   </div>

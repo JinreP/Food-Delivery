@@ -13,9 +13,17 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "./ui/button";
+import { OrderDetail } from "./carts";
+import { SignUpLogin } from "./signUp";
+import { useAuth } from "@/context/user.provider";
 export function Navbar() {
-  const [value, setValue] = useState("");
+  const { user } = useAuth();
 
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [location, setLocation] = useState("");
+  function logged() {
+    setLoggedIn(true);
+  }
   return (
     <div className="w-full h-[172px] bg-black flex justify-between  px-30 items-center">
       <div className="flex gap-5 ">
@@ -44,14 +52,14 @@ export function Navbar() {
       <div className="relative flex  gap-3 ">
         <Input
           type="search"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
           className="pl-10 w-[400px] bg-white"
           placeholder=""
         />
         <Dialog>
           <DialogTrigger asChild>
-            {value === "" && (
+            {location === "" && (
               <div className="absolute top-1.5 left-10">
                 <span className="text-orange-600 font-medium">
                   Delivery address:
@@ -69,6 +77,7 @@ export function Navbar() {
 
             <div className="grid gap-1">
               <Input
+                onChange={(e) => setLocation(e.target.value)}
                 placeholder="Please share your complete address"
                 className="w-[454] h-20 pb-13"
               />
@@ -82,6 +91,8 @@ export function Navbar() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
+
+        <OrderDetail location={location} />
 
         <svg
           className="absolute left-3 top-2"
@@ -123,7 +134,9 @@ export function Navbar() {
             strokeLinejoin="round"
           />
         </svg>
-        <User />
+        {user && <User />}
+
+        {!user && <SignUpLogin setLoggedIn={setLoggedIn} logged={logged} />}
       </div>
     </div>
   );

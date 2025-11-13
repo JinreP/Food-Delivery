@@ -59,17 +59,23 @@ export function ForgotPassword() {
               <p className="text-gray-500">
                 Enter your email to receive a password reset link.{" "}
               </p>
-              <Input placeholder="example@gamil.com" />
+              <Input
+                placeholder="example@gamil.com"
+                onChange={(e) => setUpdatedUser(e.target.value)}
+              />
 
               <p className="underline">Forgot password</p>
             </div>
             <div className="flex flex-col">
-              <Button className="bg-black w-[450px] mt-5 mb-5 text-white">
+              <Button
+                className="bg-black w-[450px] mt-5 mb-5 text-white"
+                onClick={updadeUser}
+              >
                 Send link
               </Button>
               <div className="flex gap-2 pl-23">
                 <p className="text-gray-500">Don’t have an account?</p>
-                <Link href={"http://localhost:3000/SignUp"}>
+                <Link href={"http://localhost:3000/client/signUp"}>
                   <span className="text-blue-500">Sign up</span>
                 </Link>
               </div>

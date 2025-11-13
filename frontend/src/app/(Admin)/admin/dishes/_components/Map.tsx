@@ -140,7 +140,7 @@ export function ArrayMap() {
                       <Input
                         className="h-[150px]"
                         type="file"
-                        onChange={(e) => setImage(e.target.value)}
+                        onChange={(e) => setImage("login.jpg")}
                         placeholder="choose a file or drag & drop it here"
                       ></Input>
                       <div className="bg-white w-[50px] h-[50px] rounded-[50%] absolute left-50 right-50 top-15 flex items-center justify-center">
@@ -207,7 +207,7 @@ export function ArrayMap() {
                     </Button>
                     <div className="flex gap-7">
                       <p className="text-orange-400">{dish.food}</p>
-                      <span>{dish.price}</span>
+                      <span>${dish.price}</span>
                     </div>
                     <p className="px-4  text-[12px]">{dish.ingredients}</p>
                   </div>

@@ -1,5 +1,6 @@
+import { Img } from "../login/_components/image";
 import { ForgotPassword } from "./_components/forgot";
-import { Img } from "../_components/image";
+
 
 export default function ForgotHome() {
   return (
