@@ -51,7 +51,7 @@ export function EditFood({ dish, categories }: EditFoodTypes) {
           <DialogTrigger asChild>
             <Button
               variant={"secondary"}
-              className="rounded-[50%] w-11 h-11 absolute  right-6 top-25"
+              className="rounded-[50%] w-11 h-11 absolute  right-2 top-25"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

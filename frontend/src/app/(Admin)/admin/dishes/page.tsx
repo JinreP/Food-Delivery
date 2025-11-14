@@ -12,7 +12,7 @@ export default function DishesHome() {
       <div className="flex flex-col">
         <div className="flex gap-40 relative ">
           <div className="mt-25 ">
-            {/* <User /> */}
+            <User />
 
             <Category />
             <Appetizers />

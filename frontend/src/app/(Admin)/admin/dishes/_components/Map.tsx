@@ -179,8 +179,8 @@ export function ArrayMap() {
                       height={50}
                       unoptimized
                     />
-                 
-                    <EditFood dish={dish} categories={categories}/>
+
+                    <EditFood dish={dish} categories={categories} />
                     <div className="flex gap-7">
                       <p className="text-orange-400">{dish.food}</p>
                       <span>${dish.price}</span>

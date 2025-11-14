@@ -37,12 +37,12 @@ export function OrderDetail({ location }: any) {
     setEmpty(true);
     setShowOrderAlert(true);
     setTimeout(() => {
-      setOrdered(false);
+      setShowOrderAlert(false);
     }, 3000);
   };
 
   return (
-    <div>
+    <div className="pr-20">
       <Dialog>
         <form className="">
           <DialogTrigger asChild>
@@ -63,8 +63,8 @@ export function OrderDetail({ location }: any) {
               </svg>
             </Button>
           </DialogTrigger>
-          <DialogContent className="w-[535px] h-full bg-gray-500 border-0 flex flex-col items-center right-0 left-300  ">
-            {ordered && (
+          <DialogContent className="w-[535px] h-full bg-gray-500 border-0 flex flex-col items-center right-0 left-498  ">
+            {showOrderAlert && (
               <Alert className="absolute top-10 right-220 w-[700px] h-[450px] flex  justify-center bg-black text-white">
                 <AlertTitle className="font-bold text-3xl">
                   Your order has been successfully placed !
@@ -148,7 +148,7 @@ export function OrderDetail({ location }: any) {
                       </CardTitle>
                     </CardHeader>
 
-                    <CardContent className="grid gap-6 h-[200px]">
+                    <CardContent className="grid gap-6 h-[500px]">
                       {empty === false && (
                         <div>
                           <div className="flex flex-col">
@@ -222,7 +222,8 @@ export function OrderDetail({ location }: any) {
                       <div className="grid gap-3">
                         <div className="flex ">
                           <OrderList
-                            ordered={setShowOrderAlert}
+                            ordered={showOrderAlert}
+                            orderedFood={ordered}
                             location={location}
                           />
                         </div>
