@@ -1,7 +1,7 @@
 import { useOrder } from "@/context/food.provider";
 import { Badge } from "./ui/badge";
 
-export function OrderList({ ordered, location }: any) {
+export function OrderList({ ordered, location, orderedFood }: any) {
   const { cart } = useOrder();
   const totalPrice = cart.reduce(
     (sum, item) => sum + item.price * item.howMuch,
@@ -10,13 +10,13 @@ export function OrderList({ ordered, location }: any) {
   const now = new Date();
 
   const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0"); // 0–11 → +1
+  const month = String(now.getMonth() + 1).padStart(2, "0");
   const day = String(now.getDate()).padStart(2, "0");
 
   const today = `${year}/${month}/${day}`;
   return (
     <div>
-      {ordered && (
+      {orderedFood && (
         <div className="flex flex-col gap-5">
           <div className="flex justify-between gap-50">
             <div className="flex gap-2 font-bold text-[20px]">
@@ -30,7 +30,7 @@ export function OrderList({ ordered, location }: any) {
 
           {cart.map((item, i) => {
             return (
-              <div key={i} >
+              <div key={i}>
                 <div className="flex justify-between items-center ">
                   <div className="flex gap-2 mb-3 text-[16px] ">
                     <svg
@@ -52,7 +52,7 @@ export function OrderList({ ordered, location }: any) {
                   </div>
                   <p>x{item.howMuch}</p>
                 </div>
-                <div  className="flex justify-between mb-3 items-center">
+                <div className="flex justify-between mb-3 items-center">
                   <div className="flex gap-2 text-[16px]">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

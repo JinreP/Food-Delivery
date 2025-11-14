@@ -54,7 +54,7 @@ export function Navbar() {
           type="search"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          className="pl-10 w-[400px] bg-white"
+          className="pl-10 w-[400px]  bg-white"
           placeholder=""
         />
         <Dialog>
@@ -91,7 +91,6 @@ export function Navbar() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
-
         <OrderDetail location={location} />
 
         <svg

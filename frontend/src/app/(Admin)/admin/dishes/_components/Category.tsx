@@ -59,7 +59,6 @@ export function Category() {
     <div className=" flex flex-col  w-[1171px] h-fit border-4 bg-white border-white rounded-2xl ">
       <div className="flex justify-between">
         <h1 className="font-bold mb-6 text-2xl pl-13 ">Dishes category</h1>
-        <User />
       </div>
 
       <div>

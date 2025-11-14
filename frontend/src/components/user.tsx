@@ -13,9 +13,8 @@ import { UserTypes } from "@/lib/types";
 import { useAuth } from "@/context/user.provider";
 export function User() {
   const { user, logout } = useAuth();
-
   return (
-    <div className="">
+    <div className="absolute right-9 top-0">
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar>
