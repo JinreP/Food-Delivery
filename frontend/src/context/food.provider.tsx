@@ -30,7 +30,7 @@ const OrderContext = createContext<OrderContextType | undefined>(undefined);
 
 export function OrderFoodAuth({ children }: { children: ReactNode }) {
   const { user } = useAuth();
-  const userId = user?.id;
+  const userId = user?._id;
   const router = useRouter();
 
   const [cart, setCart] = useState<OrderItem[]>([]);
@@ -79,6 +79,7 @@ export function OrderFoodAuth({ children }: { children: ReactNode }) {
     if (!dish._id) return;
 
     const item: OrderItem = {
+      _id: dish._id,
       foodId: dish._id,
       name: dish.food,
       price: dish.price,

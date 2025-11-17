@@ -19,23 +19,41 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/context/user.provider";
-import { useOrder } from "@/context/food.provider";
-import { Ewert } from "next/font/google";
+
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { OrderItem } from "@/lib/types";
 export function OrderMap() {
   const { user } = useAuth();
-  const { cart } = useOrder();
 
-  const totalFoods = cart.reduce((sum, item) => sum + item.howMuch, 0);
-  const totalPrice = cart.reduce(
+  const [orders, setOrders] = useState<OrderItem[]>([]);
+
+  useEffect(() => {
+    if (!user?._id) return;
+    (async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:4000/order/user/${user?._id}`
+        );
+
+        setOrders(res.data);
+        console.log("ORDERS >>>", res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [user]);
+
+  const totalFoods = orders.reduce((sum, item) => sum + item.howMuch, 0);
+  const totalPrice = orders.reduce(
     (sum, item) => sum + item.price * item.howMuch,
     0
   );
 
-  console.log("cart in OrderMap:", cart);
+  console.log("cart in OrderMap:", orders);
   return (
-    <div>
+    <div className="w-full h-screen bg-white">
       <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">№</TableHead>
@@ -48,7 +66,17 @@ export function OrderMap() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {cart.map((c, i) => {
+          {orders.length === 0 && (
+            <TableRow>
+              <TableCell
+                colSpan={7}
+                className="text-center text-muted-foreground"
+              >
+                No orders yet
+              </TableCell>
+            </TableRow>
+          )}
+          {orders.map((c, i) => {
             return (
               <TableRow>
                 <TableCell className="font-medium">1</TableCell>
@@ -89,16 +117,6 @@ export function OrderMap() {
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
-                {cart.length === 0 && (
-                  <TableRow>
-                    <TableCell
-                      colSpan={7}
-                      className="text-center text-muted-foreground"
-                    >
-                      No orders yet
-                    </TableCell>
-                  </TableRow>
-                )}
               </TableRow>
             );
           })}

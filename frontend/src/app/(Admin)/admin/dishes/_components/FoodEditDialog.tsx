@@ -153,7 +153,7 @@ export function EditFood({ dish, categories }: EditFoodTypes) {
                   id="name-4"
                   name="name"
                   value={price}
-                  onChange={(e) => setPrice(Number(e.target.value))}
+                  onChange={(e) => setPrice(Number(e.target.value) || 0)}
                 />
               </div>
               <div className="flex gap-3">

@@ -1,11 +1,8 @@
 "use client";
 
-import { ArrayPropsTypes, CategoryTypes } from "@/lib/types";
-
+import { ArrayPropsTypes, CategoryTypes, FoodsTypes } from "@/lib/types";
 import Image from "next/image";
-
 import { Button } from "@/components/ui/button";
-
 import {
   Dialog,
   DialogContent,
@@ -14,25 +11,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
 import { Input } from "@/components/ui/input";
-
-import { FoodsTypes } from "@/lib/types";
-
 import { Label } from "@radix-ui/react-label";
-
 import axios from "axios";
-
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { EditFood } from "./FoodEditDialog";
+
+import { upload } from "@vercel/blob/client";
+import type { PutBlobResult } from "@vercel/blob";
 
 export function ArrayMap() {
   const [dishes, setDishes] = useState<FoodsTypes[]>([]);
   const [food, setFood] = useState("");
   const [price, setPrice] = useState(0);
-  const [image, setImage] = useState("");
   const [categories, setCategories] = useState<CategoryTypes[]>([]);
   const [ingredients, setIngredients] = useState("");
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
   useEffect(() => {
     (async () => {
       try {
@@ -51,29 +47,57 @@ export function ArrayMap() {
       }
     })();
   }, []);
+
   async function add(categoryId: string) {
-    if (!food.trim() || !price || !image || !ingredients) return null;
-    console.log("hool nemdeg ajillaa", food, price, ingredients);
+    console.log("ADD CALLED", { food, price, ingredients, categoryId });
+
+    const file = fileInputRef.current?.files?.[0];
+    if (!file) {
+      return alert("NO IMAGE SELECTED");
+    }
+
     try {
-      const res = await axios.post("http://localhost:4000/foods", {
-        food: food.trim(),
-        price: price,
-        image: image,
-        ingredients: ingredients,
-        category: categoryId,
+      const blob = await upload(file.name, file, {
+        access: "public",
+        handleUploadUrl: "/api",
       });
+
+      console.log("BLOB URL:", blob.url);
+
+      const body = {
+        food: food.trim(),
+        price,
+        image: blob.url,
+        ingredients,
+        category: categoryId,
+      };
+
+      console.log("SENDING BODY:", body);
+
+      const res = await axios.post("http://localhost:4000/foods", body);
+
+      console.log("BACKEND RESPONSE:", res.data);
+
       setDishes((prev) => [...prev, res.data]);
-    } catch (error) {
-      console.error(error, "food error");
+    } catch (err: any) {
+      console.log("BACKEND ERROR >>>");
+      console.log(err?.response?.data);
+      console.log(err?.message);
+
+      alert("Backend Error: " + JSON.stringify(err?.response?.data));
     }
   }
+
   return (
     <div>
       <div className="flex flex-col w-full gap-10 px-10 py-10 ">
         {categories.map((cat, i) => {
-          const dishForCat = dishes.filter(
-            (d: any) => d.category?._id === cat._id
-          );
+          const dishForCat = dishes.filter((d: any) => {
+            const catId =
+              typeof d.category === "string" ? d.category : d.category?._id;
+            return catId === cat._id;
+          });
+
           return (
             <section key={i}>
               <h1 className="text-3xl font-bold">
@@ -119,6 +143,7 @@ export function ArrayMap() {
                         <Input
                           placeholder="Type food name"
                           className="w-[200px]"
+                          value={food}
                           onChange={(e) => setFood(e.target.value)}
                         />
                       </div>
@@ -126,6 +151,7 @@ export function ArrayMap() {
                         <Label htmlFor="username-1">Food price</Label>
                         <Input
                           placeholder="Enter price..."
+                          value={price || ""}
                           onChange={(e) => setPrice(Number(e.target.value))}
                         />
                       </div>
@@ -134,14 +160,16 @@ export function ArrayMap() {
                     <Input
                       placeholder="List Ingredients..."
                       className="w-full h-20 pb-10 pr-7 text-[14px] "
+                      value={ingredients}
                       onChange={(e) => setIngredients(e.target.value)}
-                    ></Input>
+                    />
                     <p>Food image</p>
                     <div className="relative bg-gray-100">
                       <Input
                         className="h-[150px]"
                         type="file"
-                        onChange={(e) => setImage("login.jpg")}
+                        accept="image/*"
+                        ref={fileInputRef}
                         placeholder="choose a file or drag & drop it here"
                       />
                       <div className="bg-white w-[50px] h-[50px] rounded-[50%] absolute left-50 right-50 top-15 flex items-center justify-center">
@@ -173,6 +201,7 @@ export function ArrayMap() {
                     className="bg-white  w-[270px] border-2 rounded-2xl h-[241px] pt-3 flex flex-col items-center justify-center gap-2  relative"
                   >
                     <Image
+                      className="w-[239px] h-[150px]"
                       src={dish.image}
                       alt={dish.ingredients}
                       width={239}
