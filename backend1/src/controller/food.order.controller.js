@@ -11,6 +11,7 @@ export const createFoodOrder = async (req, res) => {
     res.status(200).send({ message: "successful", data: req.body });
   } catch (error) {
     res.status(500).send({ message: "Error", data: error.message });
+    console.log(error);
   }
 };
 

@@ -32,10 +32,11 @@ export type AccountLoginTypes = {
 export type UserTypes = {
   email: string;
   password: string;
-  id: string;
+  _id: string;
 };
 
 export type OrderItem = {
+  [x: string]: any;
   foodId: string;
   name: string;
   price: number;
@@ -44,9 +45,11 @@ export type OrderItem = {
 };
 
 export type OrderedFood = {
+  _id?: string;
+  user: string;
   items: OrderItem[];
   totalPrice: number;
-  status: "PENDING" | "CANCELED" | "DELIVERED";
+  status: "pending" | "canceled" | "delivered";
 };
 
 export type EditFoodTypes = {

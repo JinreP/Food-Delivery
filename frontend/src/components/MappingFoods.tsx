@@ -37,7 +37,6 @@ export function MappingFoods() {
   const [categories, setCategories] = useState<CategoryTypes[]>([]);
   const [orderCount, setOrderCount] = useState(1);
 
-
   useEffect(() => {
     (async () => {
       try {
@@ -91,6 +90,7 @@ export function MappingFoods() {
                         <Image
                           src={dish.image}
                           alt={dish.ingredients}
+                          className="w-[360px] h-[210px]"
                           width={365}
                           height={210}
                           unoptimized
@@ -101,6 +101,7 @@ export function MappingFoods() {
                           <Image
                             src={dish.image}
                             alt={dish.food}
+                            className="w-[377px] h-[300px]"
                             width={377}
                             height={364}
                             unoptimized

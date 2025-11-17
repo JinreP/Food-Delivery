@@ -25,20 +25,45 @@ import { OrderedAlert } from "./orderedAlert";
 
 import { useAuth } from "@/context/user.provider";
 import { CheckingUser } from "./LoginCheck";
+import { OrderedFood } from "@/lib/types";
+import axios from "axios";
+import { useOrder } from "@/context/food.provider";
 
 export function OrderDetail({ location }: any) {
+  const { cart } = useOrder();
   const { user } = useAuth();
   const [ordered, setOrdered] = useState(false);
   const [empty, setEmpty] = useState(false);
   const [showOrderAlert, setShowOrderAlert] = useState(false);
-  const foodAlert = () => {
+  const foodAlert = async () => {
     if (!user) return;
-    setOrdered(true);
-    setEmpty(true);
-    setShowOrderAlert(true);
-    setTimeout(() => {
-      setShowOrderAlert(false);
-    }, 3000);
+
+    const orderedFood: OrderedFood = {
+      user: user._id,
+      items: cart.map((c) => ({
+        foodId: c._id,
+        name: c.name,
+        price: c.price,
+        howMuch: c.howMuch,
+        ingredients: c.ingredients,
+      })),
+      totalPrice: cart.reduce(
+        (sum, item) => sum + item.price * item.howMuch,
+        0
+      ),
+      status: "pending",
+    };
+    try {
+      await axios.post("http://localhost:4000/order", orderedFood);
+      setOrdered(true);
+      setEmpty(true);
+      setShowOrderAlert(true);
+      setTimeout(() => {
+        setShowOrderAlert(false);
+      }, 3000);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -63,7 +88,7 @@ export function OrderDetail({ location }: any) {
               </svg>
             </Button>
           </DialogTrigger>
-          <DialogContent className="w-[535px] h-full bg-gray-500 border-0 flex flex-col items-center right-0 left-498  ">
+          <DialogContent className="w-[535px] h-full bg-gray-500 border-0 flex flex-col items-center right-0 left-200  ">
             {showOrderAlert && (
               <Alert className="absolute top-10 right-220 w-[700px] h-[450px] flex  justify-center bg-black text-white">
                 <AlertTitle className="font-bold text-3xl">
@@ -148,7 +173,7 @@ export function OrderDetail({ location }: any) {
                       </CardTitle>
                     </CardHeader>
 
-                    <CardContent className="grid gap-6 h-[500px]">
+                    <CardContent className="grid gap-6 h-[220px]">
                       {empty === false && (
                         <div>
                           <div className="flex flex-col">
