@@ -9,7 +9,7 @@ const itemSchema = new Schema({
 
 const foodOrderSchema = new Schema(
   {
-    user: { type: "string", ref: "users", required: true },
+    user: { type: String, ref: "users", required: true },
     totalPrice: { type: Number, required: true },
     items: { type: [itemSchema], required: true },
     status: {

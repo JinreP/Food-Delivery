@@ -23,17 +23,18 @@ import { useAuth } from "@/context/user.provider";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { OrderItem } from "@/lib/types";
+import { useUser } from "@clerk/nextjs";
 export function OrderMap() {
-  const { user } = useAuth();
+  const { user } = useUser();
 
   const [orders, setOrders] = useState<OrderItem[]>([]);
 
   useEffect(() => {
-    if (!user?._id) return;
+    if (!user?.id) return;
     (async () => {
       try {
         const res = await axios.get(
-          `http://localhost:4000/order/user/${user?._id}`
+          `http://localhost:4000/order/user/${user?.id}`
         );
 
         setOrders(res.data);
@@ -44,11 +45,16 @@ export function OrderMap() {
     })();
   }, [user]);
 
-  const totalFoods = orders.reduce((sum, item) => sum + item.howMuch, 0);
-  const totalPrice = orders.reduce(
-    (sum, item) => sum + item.price * item.howMuch,
-    0
-  );
+  const totalFoods = orders.reduce((sum, order) => {
+    return (
+      sum +
+      order.items.reduce((s: any, i: { howMuch: any }) => s + i.howMuch, 0)
+    );
+  }, 0);
+
+  const totalPrice = orders.reduce((sum, order) => {
+    return sum + order.totalPrice;
+  }, 0);
 
   console.log("cart in OrderMap:", orders);
   return (
@@ -78,9 +84,9 @@ export function OrderMap() {
           )}
           {orders.map((c, i) => {
             return (
-              <TableRow>
+              <TableRow key={c._id}>
                 <TableCell className="font-medium">1</TableCell>
-                <TableCell>{user?.email}</TableCell>
+                <TableCell>{user?.primaryEmailAddress?.emailAddress}</TableCell>
                 <TableCell>
                   {c.name} {totalFoods}
                 </TableCell>

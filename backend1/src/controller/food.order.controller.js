@@ -16,10 +16,10 @@ export const createFoodOrder = async (req, res) => {
 };
 
 export const getFoodOrder = async (req, res) => {
-  const userId = req.params.userId;
-  console.log("getFoodOrder picked userId:", userId, "params:", req.params);
-
   try {
+    const userId = req.params.userId;
+    console.log("getFoodOrder picked userId:", userId, "params:", req.params);
+
     const result = await foodOrder
       .find({ user: userId })
       .populate([{ path: "items.foodId" }]);
