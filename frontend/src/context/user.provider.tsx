@@ -1,72 +1,52 @@
 "use client";
 
+import { createContext, useContext, ReactNode } from "react";
+import { useClerk, useSignIn, useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+
 export interface AuthContextType {
-  user: UserTypes | null;
+  user: any;
   login: (_email: string, _password: string) => void;
   logout: () => void;
-
 }
-
-import { UserTypes } from "@/lib/types";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from "react";
 
 const AuthContext = createContext({} as AuthContextType);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
-  const [user, setUser] = useState<UserTypes | null>(null);
-
-
+  const { user } = useUser();
+  const { signOut } = useClerk();
+  const { isLoaded, signIn, setActive } = useSignIn();
 
   async function login(email: string, password: string) {
+    if (!isLoaded) return;
+
     try {
-      const res = await axios.post("http://localhost:4000/user/login", {
-        email: String(email),
-        password: password,
+      const result = await signIn.create({
+        identifier: email,
+        password,
       });
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
 
-      setUser(res.data.user);
-
-      console.log("REQ BODY:", res.data);
-
-      router.push("/");
-    } catch (error: any) {
-      console.error(error, "frotnend");
+      if (result.status === "complete") {
+        await setActive({ session: result.createdSessionId });
+        router.push("/");
+      }
+    } catch (err) {
+      console.error("Login failed:", err);
     }
   }
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const raw = localStorage.getItem("user");
-    if (token) axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-    if (raw) setUser(JSON.parse(raw));
-  }, []);
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    delete axios.defaults.headers.common.Authorization;
-    setUser(null);
-  };
-  const value = { user, login, logout };
+  async function logout() {
+    await signOut();
+  }
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
+  return useContext(AuthContext);
 }

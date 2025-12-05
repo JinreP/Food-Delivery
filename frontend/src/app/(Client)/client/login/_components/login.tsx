@@ -115,7 +115,7 @@ export const Login = () => {
                   </Button>
                   <div className="flex gap-2 pl-23">
                     <p className="text-gray-500">Don’t have an account?</p>
-                    <Link href={"http://localhost:3000/client/signUp"}>
+                    <Link href={"http://localhost:3000/sign-up"}>
                       <span className="text-blue-500">Sign up</span>
                     </Link>
                   </div>
