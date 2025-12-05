@@ -56,7 +56,7 @@ export function PasswordLogin({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setPasswordUser(values.password);
-    createUser();
+    createUser(values.password);
     console.log(setPasswordUser);
   }
   return (

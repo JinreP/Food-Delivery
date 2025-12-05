@@ -10,7 +10,7 @@ export default clerkMiddleware(async (auth, req) => {
   if (!pathname.startsWith("/admin")) return;
 
   if (!userId) {
-    return NextResponse.redirect(new URL("/sign-in", req.url));
+    return NextResponse.redirect(new URL("/client/login", req.url));
   }
 
   const isAdmin = adminIds.includes(userId);

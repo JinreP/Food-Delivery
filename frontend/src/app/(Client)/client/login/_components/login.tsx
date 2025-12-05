@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import axios from "axios";
+
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -39,7 +39,9 @@ export const Login = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+
     login(values.email, values.password);
+    router.push("/");
   }
 
   return (
@@ -115,7 +117,7 @@ export const Login = () => {
                   </Button>
                   <div className="flex gap-2 pl-23">
                     <p className="text-gray-500">Don’t have an account?</p>
-                    <Link href={"http://localhost:3000/sign-up"}>
+                    <Link href={"http://localhost:3000/client/signUp"}>
                       <span className="text-blue-500">Sign up</span>
                     </Link>
                   </div>

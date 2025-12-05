@@ -28,10 +28,11 @@ import { CheckingUser } from "./LoginCheck";
 import { OrderedFood } from "@/lib/types";
 import axios from "axios";
 import { useOrder } from "@/context/food.provider";
+import { useUser } from "@clerk/nextjs";
 
 export function OrderDetail({ location }: any) {
   const { cart } = useOrder();
-  const { user } = useAuth();
+  const { user } = useUser();
   const [ordered, setOrdered] = useState(false);
   const [empty, setEmpty] = useState(false);
   const [showOrderAlert, setShowOrderAlert] = useState(false);
@@ -39,7 +40,7 @@ export function OrderDetail({ location }: any) {
     if (!user) return;
 
     const orderedFood: OrderedFood = {
-      user: user._id,
+      user: user.id,
       items: cart.map((c) => ({
         foodId: c._id,
         name: c.name,

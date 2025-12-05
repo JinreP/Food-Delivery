@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
+import { useSignUp } from "@clerk/nextjs";
+
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { UserTypes } from "@/lib/types";
@@ -19,6 +21,8 @@ export default function SignUpHome() {
   const [user, setUser] = useState<UserTypes[]>([]);
   const [newEmail, setNewEmail] = useState("");
   const [passwordUser, setPasswordUser] = useState("");
+  const { isLoaded, signUp, setActive } = useSignUp();
+
   function Back() {
     setPage(page - 1);
   }
@@ -34,20 +38,24 @@ export default function SignUpHome() {
     };
   }, []);
 
-  async function createUser() {
-    if (!newEmail || !passwordUser) return null;
-    try {
-      const res = await axios.post("http://localhost:4000/user/signUp", {
-        email: newEmail.trim(),
-        password: passwordUser,
-      });
-      router.push("/Login");
+  async function createUser(password: string) {
+    if (!isLoaded) return;
 
-      setUser((prev) => [...prev, res.data]);
-    } catch (error) {
-      console.error(error, "new user error");
+    try {
+      const result = await signUp.create({
+        emailAddress: newEmail.trim(),
+        password: password,
+      });
+
+      if (result.status === "complete") {
+        await setActive({ session: result.createdSessionId });
+        router.push("/client/login");
+      }
+    } catch (err) {
+      console.error("Clerk signup error:", err);
     }
   }
+
   return (
     <>
       <div className="flex flex-col items-center  justify-center ">
