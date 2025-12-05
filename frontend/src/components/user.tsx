@@ -11,8 +11,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { UserTypes } from "@/lib/types";
 import { useAuth } from "@/context/user.provider";
+import { useUser } from "@clerk/nextjs";
 export function User() {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
+  const { user } = useUser();
   return (
     <div className="absolute right-9 top-0">
       <DropdownMenu>
@@ -26,7 +28,9 @@ export function User() {
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-[200px] rounded-2xl flex flex-col items-center justify-center">
-          <DropdownMenuItem>{user?.email}</DropdownMenuItem>
+          <DropdownMenuItem>
+            {user?.primaryEmailAddress?.emailAddress}
+          </DropdownMenuItem>
           <DropdownMenuItem>
             <Button onClick={logout}>Sign out</Button>
           </DropdownMenuItem>
