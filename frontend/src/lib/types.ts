@@ -50,6 +50,7 @@ export type OrderedFood = {
   items: OrderItem[];
   totalPrice: number;
   status: "pending" | "canceled" | "delivered";
+  location: string;
 };
 
 export type EditFoodTypes = {

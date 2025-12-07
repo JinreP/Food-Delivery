@@ -1,11 +1,12 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-const adminIds = ["user_36PDJkIY6RsUcqAoExKlCucMjvM"];
+const adminIds = ["user_36VjHhSzT3FltYQTZbkgEcUScCd"];
 
 export default clerkMiddleware(async (auth, req) => {
   const { userId, redirectToSignIn } = await auth();
   const pathname = req.nextUrl.pathname;
+  console.log("LOGGED USER:", userId);
 
   if (!pathname.startsWith("/admin")) return;
 

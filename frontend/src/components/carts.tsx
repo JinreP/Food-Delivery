@@ -53,6 +53,7 @@ export function OrderDetail({ location }: any) {
         0
       ),
       status: "pending",
+      location: location,
     };
     try {
       await axios.post("http://localhost:4000/order", orderedFood);

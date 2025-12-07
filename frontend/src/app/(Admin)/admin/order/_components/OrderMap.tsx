@@ -52,9 +52,19 @@ export function OrderMap() {
     );
   }, 0);
 
-  const totalPrice = orders.reduce((sum, order) => {
-    return sum + order.totalPrice;
-  }, 0);
+  // const totalPrice = orders.reduce((sum, order) => {
+  //   return sum + order.totalPrice;
+  // }, 0);
+
+  const updadeStatus = async (id: string, status: string) => {
+    try {
+      await axios.patch(`http://localhost:4000/order/${id}`, { status });
+      alert("Status updated!");
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   console.log("cart in OrderMap:", orders);
   return (
@@ -91,14 +101,14 @@ export function OrderMap() {
                   {c.name} {totalFoods}
                 </TableCell>
                 <TableCell className="text-right">2024/12/20</TableCell>
-                <TableCell className="text-right">{totalPrice}</TableCell>
-                <TableCell className="text-right">location</TableCell>
+                <TableCell className="text-right">{c.totalPrice}</TableCell>
+                <TableCell className="text-right">{c.location}</TableCell>
 
                 <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Badge className="border border-orange-600 bg-white text-black px-5 py-2 font-bold">
-                        Pending
+                        {c.status}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
@@ -117,9 +127,17 @@ export function OrderMap() {
                     </DropdownMenuTrigger>
 
                     <DropdownMenuContent>
-                      <DropdownMenuLabel>Canceled</DropdownMenuLabel>
+                      <DropdownMenuLabel
+                        onClick={() => updadeStatus(c._id, "canceled")}
+                      >
+                        Canceled
+                      </DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem>Delivered</DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => updadeStatus(c._id, "delivered")}
+                      >
+                        Delivered
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
