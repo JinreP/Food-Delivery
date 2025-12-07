@@ -28,7 +28,7 @@ export function EditFood({ dish, categories }: EditFoodTypes) {
   const [price, setPrice] = useState(dish.price);
   const [image, setImage] = useState(dish.image);
   const [saving, setSaving] = useState(false);
-
+  const [foods, setFoods] = useState<any[]>([]);
   async function Edit() {
     try {
       setSaving(true);
@@ -41,6 +41,15 @@ export function EditFood({ dish, categories }: EditFoodTypes) {
       });
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async function Delete(dish: any) {
+    try {
+      await axios.delete(`http://localhost:4000/foods/${dish._id}`);
+      setFoods((prev) => prev.filter((f) => f._id !== dish._id));
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -167,6 +176,7 @@ export function EditFood({ dish, categories }: EditFoodTypes) {
               <DialogClose asChild>
                 <Button
                   variant="outline"
+                  onClick={() => Delete(dish)}
                   className="border border-orange-400 rounded w-12 h-10"
                 >
                   <svg
