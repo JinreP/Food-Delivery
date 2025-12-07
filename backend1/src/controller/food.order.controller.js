@@ -7,6 +7,7 @@ export const createFoodOrder = async (req, res) => {
       totalPrice: req.body.totalPrice,
       items: req.body.items,
       status: req.body.status,
+      location: req.body.location,
     });
     res.status(200).send({ message: "successful", data: req.body });
   } catch (error) {

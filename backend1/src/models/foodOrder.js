@@ -17,6 +17,7 @@ const foodOrderSchema = new Schema(
       enum: ["pending", "canceled", "delivered"],
       default: "pending",
     },
+    location: { type: String, required: true },
   },
   {
     timelapse: true,
