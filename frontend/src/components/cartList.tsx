@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { OrderItem } from "@/lib/types";
 import { useOrder } from "@/context/food.provider";
+import axios from "axios";
 
 export function CartList() {
   const { cart, cancel } = useOrder();
-
+  const [dishes, setDishes] = useState<any[]>([]);
   const [orderCount, setOrderCount] = useState(1);
   const [foodData, setFoodData] = useState<OrderItem[]>([]);
 
@@ -24,17 +25,27 @@ export function CartList() {
     } catch (error) {
       console.log(error);
     }
+    (async () => {
+      try {
+        const res = await axios.get("http://localhost:4000/foods");
+        setDishes(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
   }, []);
 
   return (
     <div>
       {cart.map((item, i) => {
+        const dish = dishes.find((d) => d._id === item.foodId);
+
         return (
           <div key={i} className="flex gap-5 relative">
             <Image
               width={124}
               height={120}
-              src="/sunshine.png"
+              src={dish?.image}
               alt=""
               className="rounded-2xl"
             />

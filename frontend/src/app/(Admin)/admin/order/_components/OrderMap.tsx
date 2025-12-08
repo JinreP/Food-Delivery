@@ -97,9 +97,7 @@ export function OrderMap() {
               <TableRow key={c._id}>
                 <TableCell className="font-medium">1</TableCell>
                 <TableCell>{user?.primaryEmailAddress?.emailAddress}</TableCell>
-                <TableCell>
-                  {c.name} {totalFoods}
-                </TableCell>
+                <TableCell>{totalFoods}</TableCell>
                 <TableCell className="text-right">2024/12/20</TableCell>
                 <TableCell className="text-right">{c.totalPrice}</TableCell>
                 <TableCell className="text-right">{c.location}</TableCell>

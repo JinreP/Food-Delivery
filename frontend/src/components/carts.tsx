@@ -36,6 +36,7 @@ export function OrderDetail({ location }: any) {
   const [ordered, setOrdered] = useState(false);
   const [empty, setEmpty] = useState(false);
   const [showOrderAlert, setShowOrderAlert] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
   const foodAlert = async () => {
     if (!user) return;
 
@@ -73,7 +74,13 @@ export function OrderDetail({ location }: any) {
       <Dialog>
         <form className="">
           <DialogTrigger asChild>
-            <Button variant="outline" className="w-9 h-9 rounded-[50%]">
+            <Button
+              variant="outline"
+              className="w-9 h-9 rounded-[50%] relative"
+            >
+              {/* <div className="absolute right-0.5 top-0 rounded-2xl border bg-red-400 ">
+                {cartCount}
+              </div> */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="15"

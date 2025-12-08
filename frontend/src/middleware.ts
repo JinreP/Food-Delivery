@@ -1,7 +1,7 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-const adminIds = ["user_36VjHhSzT3FltYQTZbkgEcUScCd"];
+const adminIds = ["user_36PDJkIY6RsUcqAoExKlCucMjvM"];
 
 export default clerkMiddleware(async (auth, req) => {
   const { userId, redirectToSignIn } = await auth();
